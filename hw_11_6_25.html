@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Virtual DJ & Sign-up Form</title>
+</head>
+<body>
+  <h2>Virtual DJ Keyboard</h2>
+  <p>Press A, S, C, or B to play sounds.</p>
+  <div id="soundName">Press a key to play sound</div>
+  <audio id="soundA" src="sound1.mp3"></audio>
+  <audio id="soundS" src="sound2.mp3"></audio>
+  <audio id="soundC" src="sound3.mp3"></audio>
+  <audio id="soundB" src="sound4.mp3"></audio>
+  <script>
+    const sounds = {
+      'A': { audioId: 'soundA', name: 'Beat Drop' },
+      'S': { audioId: 'soundS', name: 'Snare' },
+      'C': { audioId: 'soundC', name: 'Clap' },
+      'B': { audioId: 'soundB', name: 'Bass' }
+    };
+    function stopAllSounds() {
+      for (let key in sounds) {
+        const audio = document.getElementById(sounds[key].audioId);
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    }
+    document.addEventListener('keydown', function(e) {
+      const key = e.key.toUpperCase();
+      if (sounds[key]) {
+        stopAllSounds(); // Stop other audios
+        const audio = document.getElementById(sounds[key].audioId);
+        audio.play();
+        document.getElementById('soundName').textContent = "Playing: " + sounds[key].name;
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Sign-Up Form</title>
+</head>
+<body>
+ <h2>Sign-Up Form</h2>
+  <form id="signupForm">
+    <label>Name:</label><br>
+    <input type="text" id="name"><br><br>
+    <label>Password:</label><br>
+    <input type="password" id="password"><br><br>
+    <button type="submit">Submit</button>
+  </form>
+  <p id="message" style="color:red;"></p>
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // prevent actual form submission
+      const name = document.getElementById("name").value.trim();
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+      message.textContent = "";
+      if (name === "") 
+	  {
+        message.textContent = "Name cannot be empty.";
+      } 
+	  else if (password.length < 6) 
+	  {
+        message.textContent = "Password must be at least 6 characters.";
+      } 
+	  else
+	  {
+        alert("Sign-up successful!");
+        // Optional: Reset the form
+        document.getElementById("signupForm").reset();
+      }
+    });
+  </script>
+</body>
+</html>
+
+

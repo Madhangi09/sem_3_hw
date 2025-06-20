@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>School Dashboard</title>
+</head>
+<body>
+  <h2>School Dashboard</h2>
+  <button onclick="addStudents()">Add Students</button>
+  <button onclick="mergeProfiles()">Merge Profiles</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    let studentA, studentB, mergedStudent;
+
+    // Function to add a student
+    function addStudent({ name, age, ...subjects }) {
+      return {
+        id: Date.now(),
+        name,
+        age,
+        subjects,
+      };
+    }
+
+    function addStudents() {
+      studentA = addStudent({
+        name: "Mad",
+        age: 14,
+        Math: 85,
+        Science: 90,
+      });
+
+      studentB = {
+        ...addStudent({
+          name: "Ani",
+          age: 14,
+          English: 88,
+          History: 75,
+        }),
+        guardian: {
+          name: "Mrs.Baka",
+          contact: {
+            phone: "9876543210",
+          },
+        },
+      };
+
+      document.getElementById("output").textContent =
+        "Student A:" + JSON.stringify(studentA, null, 2) + "Student B:" + JSON.stringify(studentB, null, 2);
+    }
+
+    // Merge two student profiles
+    function mergeProfiles() {
+      mergedStudent = {
+        ...studentA,
+        ...studentB,
+        subjects: {
+          ...studentA.subjects,
+          ...studentB.subjects,
+        },
+      };
+
+      const guardianPhone = mergedStudent?.guardian?.contact?.phone || "Not Available";
+
+      document.getElementById("output").textContent ="Merged Student:" + JSON.stringify(mergedStudent, null, 2) + "Guardian Phone: " + guardianPhone;
+    }
+  </script>
+</body>
+</html>
