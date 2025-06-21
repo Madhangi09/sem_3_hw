@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="gradeApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Score Checker</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    .message { font-weight: bold; font-size: 18px; }
+    .success { color: green; }
+    .fail { color: red; }
+  </style>
+</head>
+<body ng-controller="gradeCtrl">
+
+  <h2>Enter Your Score</h2>
+  <input type="number" ng-model="score" placeholder="Enter score (0-100)" />
+
+  <!-- Show score only if it's valid -->
+  <div ng-if="score >= 0 && score <= 100">
+    <p>Your score: {{ score }}</p>
+
+    <!-- Show Grade A message if score >= 90 -->
+    <p class="message success" ng-show="score >= 90">Grade A - Excellent!</p>
+
+    <!-- Hide fail message if score >= 40 -->
+    <p class="message fail" ng-hide="score >= 40">You have failed.</p>
+
+    <!-- Detailed feedback using ng-switch -->
+    <div ng-switch on="true">
+      <p ng-switch-when="score >= 90">Top Performer!</p>
+      <p ng-switch-when="score >= 75 && score < 90">Great Job!</p>
+      <p ng-switch-when="score >= 60 && score < 75">Good Work!</p>
+      <p ng-switch-when="score >= 40 && score < 60">You Passed!</p>
+      <p ng-switch-when="score < 40">Needs Improvement.</p>
+    </div>
+  </div>
+
+  <!-- Message if invalid score -->
+  <div ng-if="score < 0 || score > 100">
+    <p class="message fail">Please enter a valid score between 0 and 100.</p>
+  </div>
+
+  <script>
+    angular.module('gradeApp', [])
+      .controller('gradeCtrl', function($scope) {
+        $scope.score = null;
+      });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="studentApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Registration</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    .error { color: red; }
+    .submitted-data { border: 1px solid #ccc; margin-top: 20px; padding: 10px; }
+  </style>
+</head>
+<body ng-controller="FormController">
+  <h2>Student Registration Form</h2>
+<form name="studentForm" ng-submit="submitForm()" novalidate>
+    <label>Full Name:</label>
+    <input type="text" name="fullName" ng-model="student.fullName" required ng-minlength="3">
+    <span class="error" ng-show="studentForm.fullName.$touched && studentForm.fullName.$error.required">Full Name is required.</span>
+    <span class="error" ng-show="studentForm.fullName.$touched && studentForm.fullName.$error.minlength">Minimum 3 characters.</span>
+    <br><br>
+    <label>Email Address:</label>
+    <input type="email" name="email" ng-model="student.email" required>
+    <span class="error" ng-show="studentForm.email.$touched && studentForm.email.$error.required">Email is required.</span>
+    <span class="error" ng-show="studentForm.email.$touched && studentForm.email.$error.email">Invalid email format.</span>
+    <br><br>
+    <label>Password:</label>
+    <input type="password" name="password" ng-model="student.password" required ng-minlength="6">
+    <span class="error" ng-show="studentForm.password.$touched && studentForm.password.$error.required">Password required.</span>
+    <span class="error" ng-show="studentForm.password.$touched && studentForm.password.$error.minlength">Minimum 6 characters.</span>
+    <br><br>
+    <label>Confirm Password:</label>
+    <input type="password" name="confirmPassword" ng-model="student.confirmPassword" required>
+    <span class="error" ng-show="studentForm.confirmPassword.$touched && studentForm.confirmPassword.$error.required">Confirm your password.</span>
+    <span class="error" ng-show="student.confirmPassword !== student.password && studentForm.confirmPassword.$touched">Passwords do not match.</span>
+    <br><br>
+    <label>Gender:</label>
+    <select name="gender" ng-model="student.gender" required>
+      <option value="">--Gender--</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+    <span class="error" ng-show="studentForm.gender.$touched && studentForm.gender.$error.required">Gender is required.</span>
+    <br><br>
+	<label>Date of Birth:</label>
+    <input type="date" name="dob" ng-model="student.dob" required>
+    <span class="error" ng-show="studentForm.dob.$touched && studentForm.dob.$error.required">Date of Birth is required.</span>
+    <br><br>
+	<label>Phone Number:</label>
+    <input type="text" name="phone" ng-model="student.phone" ng-pattern="/^\d{10}$/" required>
+    <span class="error" ng-show="studentForm.phone.$touched && studentForm.phone.$error.required">Phone is required.</span>
+    <span class="error" ng-show="studentForm.phone.$touched && studentForm.phone.$error.pattern">Enter a 10-digit number.</span>
+    <br><br>
+  <label>Address:</label><br>
+    <textarea name="address" ng-model="student.address" required></textarea>
+    <span class="error" ng-show="studentForm.address.$touched && studentForm.address.$error.required">Address is required.</span>
+    <br><br>
+	<label>Courses Interested:</label><br>
+    <label><input type="checkbox" ng-model="student.courses.html"> HTML</label>
+    <label><input type="checkbox" ng-model="student.courses.css"> CSS</label>
+    <label><input type="checkbox" ng-model="student.courses.js"> JavaScript</label>
+    <label><input type="checkbox" ng-model="student.courses.angular"> AngularJS</label>
+    <br><br>
+    <label>Profile Picture:</label>
+    <input type="file" file-input="student.profilePic">
+    <br><br>
+ <label><input type="checkbox" ng-model="student.terms" required> I agree to the Terms & Conditions</label>
+    <span class="error" ng-show="studentForm.$submitted && !student.terms">You must agree to the terms.</span>
+    <br><br>
+	<button type="submit" ng-disabled="studentForm.$invalid">Submit</button>
+    <button type="button" ng-click="resetForm()">Reset</button>
+  </form>
+  <script>
+    angular.module('app', []).controller('ctrl', function($scope) {
+      $scope.user = {};
+      $scope.submit = function() {
+        if ($scope.form.$valid && $scope.user.pass === $scope.user.confirm) {
+          $scope.submitted = true;
+        }
+      };
+    });
+  </script>
+  </body>
+</html>
