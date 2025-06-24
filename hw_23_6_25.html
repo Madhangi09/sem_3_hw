@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="weatherApp">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="WeatherCtrl">
+
+  <div ng-if="loading">Loading...</div>
+
+  <div ng-if="!loading">
+    <h2>City: {{ weather.city }}</h2>
+    <p>Temperature: {{ weather.temp }} °C</p>
+    <p>Condition: {{ weather.condition }}</p>
+  </div>
+
+  <script>
+    angular.module('weatherApp', [])
+    .controller('WeatherCtrl', function($scope, $http, $timeout, $interval) {
+      var url = 'https://mocki.io/v1/abcd1234'; // replace with your API URL
+
+      function getData() {
+        $scope.loading = true;
+        $http.get(url).then(function(response) {
+          $timeout(function() {
+            $scope.weather = response.data;
+            $scope.loading = false;
+          }, 2000);
+        });
+      }
+
+      getData(); // initial load
+      $interval(getData, 30000); // refresh every 30 seconds
+    });
+  </script>
+
+</body>
+</html>
