@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="app1">
+<head>
+    <title>Employee Management</title>
+    <style>
+        .employee-card {
+            border: 1px solid gray;
+            padding: 10px;
+            background-color: beige;
+            width: 300px;
+        }
+.highlight-manager {
+            border: 2px solid green;
+            background-color: gray;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body ng-controller="c1" style="background-color:maroon;">
+    <employee-card employee="emp"></employee-card>
+<script>
+        var app = angular.module("app1", []);
+app.controller("c1", function ($scope) {
+            $scope.emp = {
+                name: "Mad",
+                department: "Artificial Intelligence",
+                email: "mad@example.com",
+                role: "Manager"
+            };
+        });
+        app.directive('employeeCard', function () {
+            return {
+                restrict: 'E',
+                scope: {
+                    employee: '='
+                },
+                template: `
+                    <div class="employee-card" highlight-role role="{{employee.role}}">
+                        <h3>{{employee.name}}</h3>
+                        <p><strong>Department:</strong> {{employee.department}}</p>
+                        <p><strong>Email:</strong> {{employee.email}}</p>
+                    </div>
+                `,
+                replace: true
+            };
+        });
+        app.directive('highlightRole', function () {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+                    if (attrs.role && attrs.role.toLowerCase() === 'manager') {
+                        element.addClass('highlight-manager');
+                    }
+                }
+            };
+        });
+    </script>
+</body>
+</html>

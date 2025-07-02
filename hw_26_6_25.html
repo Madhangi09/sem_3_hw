@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Passed List</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body style="background-color:lightgray; font-family:Arial;">
+
+<div ng-app="app1" ng-controller="c1">
+  <h3>Passed Students:</h3>
+  <ul>
+    <li ng-repeat="s in students | passFilter" style="color:green;">
+      {{ s.name }} - {{ s.department }} - {{ s.totalMarks }} marks
+    </li>
+  </ul>
+</div>
+
+<script>
+var app = angular.module("app1", []);
+
+app.controller("c1", function($scope) {
+  $scope.students = [
+    { name: "Mad", department: "CSE", totalMarks: 75 },
+    { name: "Ani", department: "ECE", totalMarks: 35 },
+    { name: "Kam", department: "ME", totalMarks: 60 },
+    { name: "Bal", department: "IT", totalMarks: 28 },
+    { name: "Lak", department: "CSE", totalMarks: 90 }
+  ];
+});
+
+app.filter("passFilter", function() {
+  return function(input) {
+    return input.filter(function(s) {
+      return s.totalMarks > 40;
+    });
+  };
+});
+</script>
+
+</body>
+</html>
